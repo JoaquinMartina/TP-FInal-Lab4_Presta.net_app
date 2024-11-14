@@ -1,0 +1,85 @@
+﻿@model Presta.net_app.Models.Prestatario
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container bg-light text-dark">
+    <h1 class="text-center">Detalles</h1>
+    <hr />
+    <div class="row">
+        <div class="col">
+            <dl class="row justify-content-center">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.Nombre)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Apellido)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.Apellido)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Telefono)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.Telefono)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.FechaNacimiento)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.FechaNacimiento)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.DNI)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.DNI)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Provincia)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.Provincia)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Localidad)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.Localidad)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Direccion)
+                </dt>
+                <dd class="col-sm-6">
+                    @Html.DisplayFor(model => model.Direccion)
+                </dd>
+            </dl>
+        </div>
+        <div class="col-4">
+            <div class="row text-center">
+                <img src="~/images/fotos/frente/@Model.FotoFrenteDni" class="img-thumbnail" asp-append-version="true" />
+            </div>
+            <div class="row text-center">
+                <img src="~/images/fotos/dorso/@Model.FotoDorsoDni" class="img-thumbnail" asp-append-version="true" />
+            </div>
+        </div>
+        <div class="col-1">
+
+        </div>
+        <hr />
+        <div class="col text-center">
+            <a class="btn btn-primary" asp-action="Index">Volver al listado</a>
+        </div>
+    </div>
+</div>

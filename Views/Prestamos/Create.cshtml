@@ -1,0 +1,56 @@
+﻿@model Presta.net_app.Models.Prestamo
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class="text-center">Nuevo Préstamo</h1>
+<div class="row justify-content-center">
+    <div class="col text-center">
+        <a class="btn btn-primary" asp-controller="Estados" asp-action="Index">Ver estados</a>
+        <a class="btn btn-success" asp-controller="Estados" asp-action="Create">Agregar estado</a>
+    </div>
+</div>
+<hr />
+<div class="row justify-content-center">
+    <div class="col-md-8 bg-light text-dark">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PrestatarioId" class="control-label"></label>
+                <select asp-for="PrestatarioId" class="form-control" asp-items="ViewBag.Prestatarios"></select>
+                <span asp-validation-for="PrestatarioId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Monto" class="control-label"></label>
+                <input asp-for="Monto" class="form-control" />
+                <span asp-validation-for="Monto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CantidadCuotas" class="control-label"></label>
+                <input asp-for="CantidadCuotas" class="form-control" />
+                <span asp-validation-for="CantidadCuotas" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaInicio" class="control-label"></label>
+                <input asp-for="FechaInicio" class="form-control" type="date" />
+                <span asp-validation-for="FechaInicio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EstadoId" class="control-label"></label>
+                <select asp-for="EstadoId" class="form-control" asp-items="ViewBag.Estados"></select>
+                <span asp-validation-for="EstadoId" class="text-danger"></span>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col text-center">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                    <a class="btn btn-danger" asp-action="Index">Volver</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
