@@ -6,53 +6,49 @@
 
 
 <div class="container bg-light text-dark">
-<h1 class="text-center">Detalles</h1>
-    <hr />
-    <dl class="row justify-content-center">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Monto)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Monto)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CantidadCuotas)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CantidadCuotas)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaInicio)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaInicio)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EstadoId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EstadoId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PrestatarioId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PrestatarioId)
-        </dd>
-        <dt class="col-sm-2">
-            <p> Monto Cuota </p>
-        </dt>
-        <dd class="col-sm-10">
-            @if (@Model.prestamoDetalle != null)
+<h1 class="text-center">Detalles Préstamo #@Model.Id</h1>
+<h4 class="text-center">@Model.Prestatario.Apellido, @Model.Prestatario.Nombre</h4>
+<h4 class="text-center">Monto otorgado: $@Model.MontoCapital</h4>
+    <div class="justify-content-center">
+            @if (@Model.PrestamoDetalles != null)
             {
-                <b>@Model.prestamoDetalle.MontoCuota</b>
+                <table class="table table-striped">
+                    <thead class="bg-secondary bg-gradient text-white">
+                        <tr>
+                            <th>
+                                <p>Cuota</p>
+                            </th>
+                            <th>
+                                <p>Próximo Pago</p>
+                            </th>
+                            <th>
+                                <p>Monto</p>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.PrestamoDetalles)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NroCuota)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FechaPago)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MontoCuota)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             }
             else
             {
-                <b>$ 0</b>
+                <b>No hay información para mostrar</b>
             }
-        </dd>
-    </dl>
+    </div>
 </div>
 <div class="col text-center">
     <a class="btn btn-primary" asp-action="Index">Volver al listado</a>

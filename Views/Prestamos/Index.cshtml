@@ -16,7 +16,7 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Monto)
+                @Html.DisplayNameFor(model => model.MontoCapital)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CantidadCuotas)
@@ -30,7 +30,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.PrestatarioId)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -40,7 +39,7 @@
                @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Monto)
+                @Html.DisplayFor(modelItem => item.MontoCapital)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CantidadCuotas)
@@ -52,7 +51,7 @@
                 @Html.DisplayFor(modelItem => item.Estado!.Descripcion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.prestatario!.Apellido)
+                @Html.DisplayFor(modelItem => item.Prestatario.Apellido)
             </td>
             <td>
                     <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id">Ver</a>

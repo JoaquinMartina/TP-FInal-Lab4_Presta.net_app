@@ -15,5 +15,6 @@ namespace Presta.net_app.Data
         public DbSet<Prestatario> Prestatarios { get; set; }
         public DbSet<Prestamo> Prestamos { get; set; }
         public DbSet<Estado> Estados { get; set; }
+        public DbSet<PrestamoDetalle> PrestamoDetalles { get; set; }
     }
 }

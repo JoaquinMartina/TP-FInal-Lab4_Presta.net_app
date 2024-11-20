@@ -22,11 +22,13 @@ namespace Presta.net_app.Controllers
         // GET: Prestamos
         public async Task<IActionResult> Index()
         {
-            var appDBcontext = _context.Prestamos.
-                Include(e => e.Estado).Select(e => e).
-                Include(p => p.prestatario).Select(p => p);
+            var prestamos = _context.Prestamos
+                .Include(p => p.Estado)
+                .Include(p => p.Prestatario)
+                .Include(p => p.PrestamoDetalles)
+                .ToListAsync();
 
-            return View(await appDBcontext.ToListAsync());
+            return View(await prestamos);
         }
 
         // GET: Prestamos/Details/5
@@ -38,7 +40,11 @@ namespace Presta.net_app.Controllers
             }
 
             var prestamo = await _context.Prestamos
-                .FirstOrDefaultAsync(m => m.Id == id);
+            .Include(p => p.Prestatario)
+            .Include(p => p.Estado)
+            .Include(p => p.PrestamoDetalles)
+            .FirstOrDefaultAsync(p => p.Id == id);
+
             if (prestamo == null)
             {
                 return NotFound();
@@ -51,7 +57,7 @@ namespace Presta.net_app.Controllers
         public IActionResult Create()
         {
             ViewData["Estados"] = new SelectList(_context.Estados, "Id", "Descripcion");
-            ViewData["Prestatarios"] = new SelectList(_context.Prestatarios, "Id", "Nombre");
+            ViewData["Prestatarios"] = new SelectList(_context.Prestatarios, "Id", "Apellido");
             return View();
         }
 
@@ -60,12 +66,23 @@ namespace Presta.net_app.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Monto,CantidadCuotas,FechaInicio,EstadoId,PrestatarioId")] Prestamo prestamo)
+        public async Task<IActionResult> Create([Bind("Id,MontoCapital,CantidadCuotas,FechaInicio,EstadoId,PrestatarioId,InteresPorcenta")] Prestamo prestamo)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(prestamo);
+                decimal montoPorCuota = (prestamo.MontoCapital + (prestamo.MontoCapital * prestamo.InteresPorcentaje / 100)) / prestamo.CantidadCuotas;
+                for (int i = 1; i <= prestamo.CantidadCuotas; i++)
+                {
+                    prestamo.PrestamoDetalles.Add(new PrestamoDetalle
+                    {
+                        NroCuota = i,
+                        MontoCuota = montoPorCuota,
+                        FechaPago = prestamo.FechaInicio.AddMonths(i)
+                    });
+                }
+                _context.Prestamos.Add(prestamo);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -95,7 +112,7 @@ namespace Presta.net_app.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Monto,CantidadCuotas,FechaInicio,EstadoId,PrestatarioId")] Prestamo prestamo)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,MontoCapital,CantidadCuotas,FechaInicio,EstadoId,PrestatarioId")] Prestamo prestamo)
         {
             if (id != prestamo.Id)
             {

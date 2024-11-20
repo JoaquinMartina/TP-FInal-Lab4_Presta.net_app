@@ -14,36 +14,60 @@
 <hr />
 <div class="row justify-content-center">
     <div class="col-md-8 bg-light text-dark">
-        <form asp-action="Create" enctype="multipart/form-data">
+        <form asp-action="Create" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PrestatarioId" class="control-label"></label>
-                <select asp-for="PrestatarioId" class="form-control" asp-items="ViewBag.Prestatarios"></select>
-                <span asp-validation-for="PrestatarioId" class="text-danger"></span>
+            <div class="row">
+                <div class="form-group">
+                    <label asp-for="PrestatarioId" class="control-label"></label>
+                    <select asp-for="PrestatarioId" class="form-control" asp-items="ViewBag.Prestatarios"></select>
+                    <span asp-validation-for="PrestatarioId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MontoCapital" class="control-label"></label>
+                    <input asp-for="MontoCapital" class="form-control" />
+                    <span asp-validation-for="MontoCapital" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Monto" class="control-label"></label>
-                <input asp-for="Monto" class="form-control" />
-                <span asp-validation-for="Monto" class="text-danger"></span>
+            <div class="row">
+                <div class="form-group">
+                    <label asp-for="InteresPorcentaje" class="control-label"></label>
+                    <input asp-for="InteresPorcentaje" class="form-control" />
+                    <span asp-validation-for="InteresPorcentaje" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CantidadCuotas" class="control-label"></label>
+                    <select asp-for="CantidadCuotas" class="form-control">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                    <span asp-validation-for="CantidadCuotas" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="CantidadCuotas" class="control-label"></label>
-                <input asp-for="CantidadCuotas" class="form-control" />
-                <span asp-validation-for="CantidadCuotas" class="text-danger"></span>
+            <div class="row">
+                <div class="form-group">
+                    <label asp-for="FechaInicio" class="control-label"></label>
+                    <input asp-for="FechaInicio" class="form-control" type="date" />
+                    <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EstadoId" class="control-label"></label>
+                    <select asp-for="EstadoId" class="form-control" asp-items="ViewBag.Estados"></select>
+                    <span asp-validation-for="EstadoId" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="FechaInicio" class="control-label"></label>
-                <input asp-for="FechaInicio" class="form-control" type="date" />
-                <span asp-validation-for="FechaInicio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EstadoId" class="control-label"></label>
-                <select asp-for="EstadoId" class="form-control" asp-items="ViewBag.Estados"></select>
-                <span asp-validation-for="EstadoId" class="text-danger"></span>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col text-center">
-                    <input type="submit" value="Guardar" class="btn btn-primary" />
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <input type="submit" value="Guardar" class="btn btn-primary me-2" />
                     <a class="btn btn-danger" asp-action="Index">Volver</a>
                 </div>
             </div>
