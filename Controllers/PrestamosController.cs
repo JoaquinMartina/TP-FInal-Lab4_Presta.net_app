@@ -20,15 +20,28 @@ namespace Presta.net_app.Controllers
         }
 
         // GET: Prestamos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string filtro)
         {
             var prestamos = _context.Prestamos
                 .Include(p => p.Estado)
-                .Include(p => p.Prestatario)
                 .Include(p => p.PrestamoDetalles)
-                .ToListAsync();
+                .Include(p => p.Prestatario).AsQueryable();
 
-            return View(await prestamos);
+            if (!string.IsNullOrEmpty(filtro))
+            {
+                if (int.TryParse(filtro, out int dni))
+                {
+                    prestamos = prestamos.Where(p => p.Prestatario.DNI == dni);
+                }
+                else
+                {
+                    prestamos = prestamos.Where(p =>
+                        EF.Functions.Like(p.Prestatario.Nombre, $"%{filtro}%") ||
+                        EF.Functions.Like(p.Prestatario.Apellido, $"%{filtro}%"));
+                }
+            }
+
+            return View(await prestamos.ToListAsync());
         }
 
         // GET: Prestamos/Details/5
@@ -66,7 +79,7 @@ namespace Presta.net_app.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MontoCapital,CantidadCuotas,FechaInicio,EstadoId,PrestatarioId,InteresPorcenta")] Prestamo prestamo)
+        public async Task<IActionResult> Create([Bind("Id,MontoCapital,CantidadCuotas,FechaInicio,EstadoId,PrestatarioId,InteresPorcentaje")] Prestamo prestamo)
         {
             if (ModelState.IsValid)
             {

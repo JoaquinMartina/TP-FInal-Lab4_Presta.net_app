@@ -23,12 +23,28 @@ namespace Presta.net_app.Controllers
         }
 
         // GET: Prestatarios
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string filtro)
         {
-            return View(await _context.Prestatarios.ToListAsync());
+            var prestatarios = _context.Prestatarios.AsQueryable();
+
+            if (!string.IsNullOrEmpty(filtro))
+            {
+                if (int.TryParse(filtro, out int dni))
+                {
+                    prestatarios = prestatarios.Where(p => p.DNI == dni);
+                }
+                else
+                {
+                    prestatarios = prestatarios.Where(p =>
+                        EF.Functions.Like(p.Nombre, $"%{filtro}%") ||
+                        EF.Functions.Like(p.Apellido, $"%{filtro}%"));
+                }
+            }
+
+            return View(await prestatarios.ToListAsync());
         }
 
-        // GET: Prestatarios/Details/5
+            // GET: Prestatarios/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

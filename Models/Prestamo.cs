@@ -9,12 +9,12 @@ namespace Presta.net_app.Models
         [Required(ErrorMessage = "Debe asignar un Prestatario")]
         [Display(Name = "Prestatario")]
         public int PrestatarioId { get; set; }
-        public Prestatario Prestatario { get; set; }
+        public Prestatario? Prestatario { get; set; }
 
         [Required(ErrorMessage = "Debe asignar un estado")]
         [Display(Name = "Estado")]
         public int EstadoId { get; set; }
-        public Estado Estado { get; set; }
+        public Estado? Estado { get; set; }
 
         [Required(ErrorMessage = "Este campo no debe ser vacío")]
         [Display(Name = "Fecha de inicio")]
