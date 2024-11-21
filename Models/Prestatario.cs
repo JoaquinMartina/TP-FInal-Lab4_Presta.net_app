@@ -33,10 +33,10 @@ namespace Presta.net_app.Models
         public int DNI { get; set; }
 
         [Display(Name = "Foto Frente DNI")]
-        public string FotoFrenteDni { get; set; }
+        public string? FotoFrenteDni { get; set; }
 
         [Display(Name = "Foto Dorso DNI")]
-        public string FotoDorsoDni { get; set; }
+        public string? FotoDorsoDni { get; set; }
 
         [Required(ErrorMessage = "Este campo no debe ser vacío")]
         [Display(Name = "Provincia")]

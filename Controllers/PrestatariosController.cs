@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Presta.net_app.Data;
 using Presta.net_app.Models;
@@ -23,7 +18,7 @@ namespace Presta.net_app.Controllers
         }
 
         // GET: Prestatarios
-        public async Task<IActionResult> Index(string filtro)
+        public async Task<IActionResult> Index(string filtro, int? pageNumber, int pageSize = 5)
         {
             var prestatarios = _context.Prestatarios.AsQueryable();
 
@@ -41,7 +36,18 @@ namespace Presta.net_app.Controllers
                 }
             }
 
-            return View(await prestatarios.ToListAsync());
+            int page = pageNumber ?? 1;
+            int totalItems = await prestatarios.CountAsync();
+            var paginatedPrestatarios = await prestatarios
+                .OrderBy(p => p.Nombre)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            ViewBag.CurrentPage = page;
+
+            return View(paginatedPrestatarios);
         }
 
             // GET: Prestatarios/Details/5

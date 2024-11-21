@@ -4,6 +4,11 @@
     ViewData["Title"] = "Index";
 }
 
+@{
+    int currentPage = ViewBag.CurrentPage ?? 1;
+    int totalPages = ViewBag.TotalPages ?? 1;
+}
+
 <h1 class="text-center">Lista de Préstamos Otorgados</h1>
 <div class="container mt-4">
     <div class="row justify-content-end align-items-center">
@@ -13,12 +18,22 @@
                     <input type="text" name="filtro" class="form-control" placeholder="Buscar por Nombre, Apellido o DNI" />
                 </div>
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-primary">Buscar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i>
+                    </button>
                 </div>
             </form>
         </div>
-        <div class="col-auto">
-            <a class="btn btn-success" asp-action="Create">Nuevo Préstamo</a>
+        <div class="col-auto d-flex">
+            <a class="btn btn-success flex-fill me-1" asp-action="Create">
+                Nuevo <i class="bi bi-plus-square"></i>
+            </a>
+            <a class="btn btn-secondary flex-fill me-1" asp-action="#">
+                Importar <i class="bi bi-arrow-up-square"></i>
+            </a>
+            <a class="btn btn-secondary flex-fill" asp-action="#">
+                Exportar <i class="bi bi-arrow-down-square"></i>
+            </a>
         </div>
     </div>
 </div>
@@ -85,4 +100,14 @@ else
             </tbody>
         </table>
     </div>
+    <nav class="mt-4">
+        <ul class="pagination d-flex justify-content-center">
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(i == currentPage ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = i })">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ namespace Presta.net_app.Controllers
         }
 
         // GET: Prestamos
-        public async Task<IActionResult> Index(string filtro)
+        public async Task<IActionResult> Index(string filtro, int? pageNumber, int pageSize = 5)
         {
             var prestamos = _context.Prestamos
                 .Include(p => p.Estado)
@@ -41,7 +42,18 @@ namespace Presta.net_app.Controllers
                 }
             }
 
-            return View(await prestamos.ToListAsync());
+            int page = pageNumber ?? 1;
+            int totalItems = await prestamos.CountAsync();
+            var paginatedPrestamos = await prestamos
+            .OrderBy(p => p.FechaInicio)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+            .ToListAsync();
+
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            ViewBag.CurrentPage = page;
+
+            return View(paginatedPrestamos);
         }
 
         // GET: Prestamos/Details/5
