@@ -39,7 +39,9 @@
 </div>
 @if (!Model.Any())
 {
-    <div class="alert alert-warning mt-4">No se encontraron resultados</div>
+    <div class="container mt-4">
+        <div class="alert alert-warning mt-4">No se encontraron resultados</div>
+    </div>
 }
 else
 {
@@ -105,7 +107,7 @@ else
             @for (int i = 1; i <= totalPages; i++)
             {
                 <li class="page-item @(i == currentPage ? "active" : "")">
-                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = i })">@i</a>
+                    <a class="btn btn-light" href="@Url.Action("Index", new { pageNumber = i })">@i</a>
                 </li>
             }
         </ul>

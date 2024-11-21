@@ -222,19 +222,25 @@ namespace Presta.net_app.Controllers
         // GET: Prestatarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var prestatario = await _context.Prestatarios
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(p => p.Prestamos)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
             if (prestatario == null)
             {
                 return NotFound();
             }
 
-            return View(prestatario);
+            if (prestatario.Prestamos.Any())
+            {
+                TempData["Error"] = "No se puede eliminar el prestatario porque tiene préstamos asociados.";
+                return RedirectToAction("Index");
+            }
+
+            _context.Prestatarios.Remove(prestatario);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: Prestatarios/Delete/5

@@ -121,19 +121,25 @@ namespace Presta.net_app.Controllers
         // GET: Estados/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var estado = await _context.Estados
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(e => e.Prestamos)
+                .FirstOrDefaultAsync(e => e.Id == id);
+
             if (estado == null)
             {
                 return NotFound();
             }
 
-            return View(estado);
+            if (estado.Prestamos.Any())
+            {
+                TempData["Error"] = "No se puede eliminar, hay prestamos registrados con este estado";
+                return RedirectToAction("Index");
+            }
+
+            _context.Estados.Remove(estado);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: Estados/Delete/5
